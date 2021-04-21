@@ -135,6 +135,7 @@ li p {
     justify-content: space-between;
   }
 
-  .quizzes li {
+  .quizzes {
+    justify-content: space-around;
   }
 }
