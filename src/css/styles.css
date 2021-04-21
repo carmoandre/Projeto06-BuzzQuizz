@@ -56,8 +56,8 @@ body {
 @media (max-width: 1100px) {
   .homeScreen {
     width: 100%;
-    margin-left: 18px;
-    margin-right: 18px;
+    padding-left: 18px;
+    padding-right: 18px;
   }
 
   .emptyList {
