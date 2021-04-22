@@ -151,3 +151,8 @@ function homeAndCreateScreenTransition(quizzID) {
     createQuizzScreenElement.classList.toggle("hiddingClass");
 }
 
+function expandCollapseEffect(element) {
+    element.children[1].classList.toggle("hiddingClass");
+    element.parentElement.children[1].classList.toggle("hiddingClass")
+}
+

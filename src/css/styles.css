@@ -211,8 +211,11 @@ li p {
   justify-content: center;
 }
 
-.firtSteps button {
+.firtSteps button,
+.createQuestions button,
+.createLevels button {
   margin-top: 85px;
+  margin-bottom: 40px;
   background: #ec362d;
   border: none;
   border-radius: 15px;
@@ -241,11 +244,67 @@ li p {
 }
 
 .generalInfo input::placeholder,
-.inputPair input::placeholder {
+.inputPair input::placeholder,
+.inputGroup input::placeholder {
   font-style: italic;
   font-size: 19px;
   padding-left: 23px;
   color: #bababa;
+}
+
+.whiteShade {
+  opacity: 0.3;
+}
+
+.createdQuestion,
+.createdLevel {
+  background: #fff;
+  width: 600px;
+  padding: 27px 20px 15px 16px;
+  margin-bottom: 24px;
+}
+
+.createdQuestion p,
+.createdLevel p {
+  font-size: 23px;
+  font-weight: 700;
+  margin-top: 28px;
+  margin-bottom: 24px;
+}
+
+.createdQuestion p:first-child,
+.createdLevel p:first-child {
+  margin: 0;
+}
+
+.createdQuestionTitle,
+.createdLevelTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.createdQuestionTitle ion-icon,
+.createdLevelTitle ion-icon {
+  font-size: 26px;
+}
+
+.inputPair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.inputPair input,
+.inputGroup input {
+  width: 564px;
+  height: 46px;
+  margin-bottom: 14px;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
 }
 
 .successfulCreated h1 {
@@ -300,50 +359,6 @@ li p {
 
 .hiddingClass {
   display: none;
-}
-
-.whiteShade {
-  opacity: 0.3;
-}
-
-.createdQuestion {
-  background: #fff;
-  width: 600px;
-  padding: 27px 20px 27px 16px;
-}
-
-.createdQuestion p {
-  font-size: 23px;
-  font-weight: 700;
-  margin-top: 28px;
-  margin-bottom: 24px;
-}
-
-.createdQuestion p:first-child {
-  margin: 0;
-}
-
-.createdQuestionTitle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.createdQuestionTitle ion-icon {
-  font-size: 26px;
-}
-
-.inputPair {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.inputPair input {
-  width: 564px;
-  height: 46px;
 }
 
 @media (max-width: 1100px) {
@@ -412,7 +427,9 @@ li p {
     height: 113px;
   }
 
-  .firtSteps button {
+  .firtSteps button,
+  .createQuestions button,
+  .createLevels button {
     margin-top: 29px;
     width: 324px;
     font-size: 18px;
@@ -422,9 +439,21 @@ li p {
     padding: 21px 18px 24px 16px;
   }
 
-  .generalInfo input::placeholder {
+  .generalInfo input::placeholder,
+  .inputPair input::placeholder,
+  .inputGroup input::placeholder {
     font-size: 19px;
     padding-left: 14px;
+  }
+
+  .inputPair input,
+  .inputGroup input {
+    width: 100%;
+  }
+
+  .createdQuestion p,
+  .createdLevel p {
+    font-size: 20px;
   }
 
   .successfulCreated h1 {
@@ -460,5 +489,15 @@ li p {
   .generalInfo input::placeholder {
     font-size: 16px;
     padding-left: 14px;
+  }
+
+  .createQuestions button,
+  .createLevels button {
+    width: 80%;
+  }
+
+  .createdQuestion,
+  .createdLevel {
+    width: 100%;
   }
 }
