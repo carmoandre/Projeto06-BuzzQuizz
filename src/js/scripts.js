@@ -104,3 +104,4 @@ function homeAndCreateScreenTransition(quizzID) {
     homeScreenElement.classList.toggle("hiddingClass");
     createQuizzScreenElement.classList.toggle("hiddingClass");
 }
+

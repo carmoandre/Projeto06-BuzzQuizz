@@ -224,7 +224,8 @@ li p {
   border-radius: 5px;
 }
 
-.generalInfo input::placeholder {
+.generalInfo input::placeholder,
+.inputPair input::placeholder {
   font-style: italic;
   font-size: 19px;
   padding-left: 23px;
@@ -280,8 +281,49 @@ li p {
   color: #818181;
   margin-top: 9px;
 }
+
 .hiddingClass {
   display: none;
+}
+
+.createdQuestion {
+  background: #fff;
+  width: 600px;
+  padding: 27px 20px 27px 16px;
+}
+
+.createdQuestion p {
+  font-size: 23px;
+  font-weight: 700;
+  margin-top: 28px;
+  margin-bottom: 24px;
+}
+
+.createdQuestion p:first-child {
+  margin: 0;
+}
+
+.createdQuestionTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.createdQuestionTitle ion-icon {
+  font-size: 26px;
+}
+
+.inputPair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputPair input {
+  width: 564px;
+  height: 46px;
 }
 
 @media (max-width: 1100px) {
