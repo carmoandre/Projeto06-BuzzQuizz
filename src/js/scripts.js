@@ -37,7 +37,7 @@ function renderQuizz(quizzInfo) {
             <p>${quizzInfo.title}</p>
         </li>
     `;
-    document.getElementById(quizzInfo.id).style.background = `
+    document.getElementById(quizzInfo.id).style.backgroundImage = `
     linear-gradient(
         180deg,
         rgba(255, 255, 255, 0) 0%,
