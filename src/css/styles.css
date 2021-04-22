@@ -94,13 +94,13 @@ body {
     ),
     url("https://rollingstone.uol.com.br/media/_versions/os-simpsons-teoria-final_widelg.jpg");
   background-size: cover;
+  background-repeat: no-repeat;
   width: 340px;
   height: 181px;
   border-radius: 5px;
   display: flex;
   align-items: flex-end;
   margin-bottom: 12px;
-  overflow: hidden;
 }
 
 li p {
@@ -110,6 +110,65 @@ li p {
   color: #fff;
   line-height: 22px;
   margin-bottom: 7px;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.quizzInsideScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 69px auto 0 auto;
+}
+
+.quizzHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 227px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.57), rgba(0, 0, 0, 0.57)), url("https://rollingstone.uol.com.br/media/_versions/os-simpsons-teoria-final_widelg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-size: 39px;
+  line-height: 46px;
+  color: #ffffff;
+}
+
+.quizzContent {
+  width: 759px;
+}
+
+.quizzQuestion {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 42px;
+  padding-left: 36px;
+  padding-right: 36px;
+  padding-bottom: 36px;
+  background-color: #ffffff;
+}
+
+.quizzQuestion li:first-child {
+  width: 687px;
+  height: 138px;
+  background-color: #e5e5e5;
+  margin-top: 36px;
+}
+
+.quizzQuestion li {
+  width: 330px;
+  height: 175px;
+  margin-top: 36px;
+  background-color: #e5e5e5;
+}
+
+.headerBackgroundRules {
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .hiddingClass {
@@ -129,7 +188,7 @@ li p {
   }
 
   .quizzesList {
-    width: 100%;
+    width: 696px;
   }
 
   .listTitle {
@@ -138,5 +197,11 @@ li p {
 
   .quizzes {
     justify-content: space-around;
+  }
+}
+
+@media (max-width: 732px) {
+  .quizzesList {
+    width: 100%;
   }
 }

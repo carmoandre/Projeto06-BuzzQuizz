@@ -5,6 +5,7 @@ function temp() {
 }
 
 getAllQuizzes()
+
 function getAllQuizzes() {
     const request = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes");
 
