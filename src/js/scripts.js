@@ -68,6 +68,19 @@ function getOneQuizz(quizzID) {
 function openQuizz(response) {
     let selectedQuizz = response.data;
     console.log(selectedQuizz);
+    let finalHTML = `<div class='quizzHeader'><p>${selectedQuizz.title}</p></div><div class='quizzContent'>`;
+    for (let i=0; i<selectedQuizz.questions.length; i++) {
+        finalHTML += `<ul class='quizzQuestion'><li><p>${selectedQuizz.questions[i].title}</p></li>`;
+        let answers = selectedQuizz.questions[i].answers;
+        console.log(answers);
+        for (let j=0; j<answers.length; j++) {
+            finalHTML += `<li><p>${answers[j].text}</p></li>`
+        }
+        finalHTML += `</ul>`
+        document.querySelector('.quizzInsideScreen').innerHTML = finalHTML;
+    }
+    document.querySelector('.quizzHeader').style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.57), rgba(0, 0, 0, 0.57)), url(${selectedQuizz.image})`;
+    document.querySelector('.quizzInsideScreen').innerHTML += `</div>`;
 }
 
 function gettingOneQuizError(answer) {
