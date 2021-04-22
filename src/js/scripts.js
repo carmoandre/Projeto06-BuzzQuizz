@@ -1,4 +1,7 @@
 const lists = document.querySelectorAll(".quizzes");
+const homeScreenElement = document.querySelector(".homeScreen");
+const quizzInsideScreenElement = document.querySelector(".quizzInsideScreen");
+const createQuizzScreenElement = document.querySelector(".createQuizzScreen");
 
 function temp() {
     console.log("Funciona! substituir!");
@@ -34,7 +37,7 @@ function resetQuizzesLists() {
 function renderQuizz(quizzInfo) {
     //TODO comparação com os ids dos meus quizz pra distribuir entre as listas
     lists[1].innerHTML += `
-        <li id="${quizzInfo.id}">
+        <li id="${quizzInfo.id}" onclick="toQuizzInsideScreenTransition(${quizzInfo.id})">
             <p>${quizzInfo.title}</p>
         </li>
     `;
@@ -48,3 +51,26 @@ function renderQuizz(quizzInfo) {
       url(${quizzInfo.image})
     `;
 }
+
+function toQuizzInsideScreenTransition(quizzID) {
+    getOneQuizz(quizzID);
+    homeScreenElement.classList.toggle("hiddingClass");
+    quizzInsideScreenElement.classList.toggle("hiddingClass");
+}
+
+function getOneQuizz(quizzID) {
+    const request = axios.get(`https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes/${quizzID}`);
+
+    request.then(openQuizz);
+    request.catch(gettingOneQuizError);
+}
+
+function openQuizz(response) {
+    let selectedQuizz = response.data;
+    console.log(selectedQuizz);
+}
+
+function gettingOneQuizError(answer) {
+    alert(`Erro ao tentar recuperar o quizz desejado! Status: ${answer.response.status}. Por favor, recarregue a página e tente de novo`);
+}
+
