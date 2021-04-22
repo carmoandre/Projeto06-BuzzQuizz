@@ -131,6 +131,7 @@ function shuffleAnswers(array) {
     answers = array;
 }
 
+
 function scrollPage(question) {
     atualQuestion = question;
     setTimeout(scrollToNextQuestion, 2000)
@@ -143,4 +144,9 @@ function scrollToNextQuestion() {
         behavior: 'smooth'
     }
     window.scrollTo(scrollOptions);
+}
+
+function homeAndCreateScreenTransition(quizzID) {
+    homeScreenElement.classList.toggle("hiddingClass");
+    createQuizzScreenElement.classList.toggle("hiddingClass");
 }

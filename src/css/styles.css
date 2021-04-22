@@ -1,6 +1,13 @@
 body {
   font-family: "Roboto", sans-serif;
-  background: #e5e5e5;
+  background: #fafafa;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 23px;
+  line-height: 27px;
+  margin: 71px auto 27px auto;
 }
 
 .header {
@@ -119,7 +126,7 @@ li p {
   padding-right: 19px;
   color: #fff;
   line-height: 22px;
-  margin-bottom: 7px;
+  margin-bottom: 45px;
   max-width: 100%;
   word-wrap: break-word;
 }
@@ -194,6 +201,101 @@ li p {
   background-repeat: no-repeat;
 }
 
+.firtSteps,
+.createQuestions,
+.createLevels,
+.successfulCreated {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.firtSteps button {
+  margin-top: 85px;
+  background: #ec362d;
+  border: none;
+  border-radius: 15px;
+  color: #fff5f4;
+  width: 367px;
+  height: 54px;
+  font-size: 21px;
+}
+
+.generalInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 21px 20px 24px 16px;
+  background: #fff;
+  width: 600px;
+  height: 256px;
+}
+
+.generalInfo input {
+  width: 100%;
+  height: 46px;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+}
+
+.generalInfo input::placeholder {
+  font-style: italic;
+  font-size: 19px;
+  padding-left: 23px;
+  color: #bababa;
+}
+
+.successfulCreated h1 {
+  margin-bottom: 46px;
+}
+
+.successfulCreated div {
+  background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(0, 0, 0, 0.5) 64.58%,
+      #000000 100%
+    ),
+    url("https://rollingstone.uol.com.br/media/_versions/os-simpsons-teoria-final_widelg.jpg");
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 500px;
+  height: 266px;
+  border-radius: 5px;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 45px;
+}
+
+.successfulCreated div p {
+  font-size: 23px;
+  padding-left: 19px;
+  padding-right: 19px;
+  color: #fff;
+  line-height: 27px;
+  margin-bottom: 20px;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.successfulCreated button {
+  background: #ec362d;
+  border: none;
+  border-radius: 15px;
+  color: #fff5f4;
+  width: 220px;
+  height: 44px;
+  font-size: 21px;
+}
+
+.successfulCreated button:last-child {
+  background: inherit;
+  color: #818181;
+  margin-top: 9px;
+}
 .hiddingClass {
   display: none;
 }
@@ -203,6 +305,12 @@ li p {
 }
 
 @media (max-width: 1100px) {
+  h1 {
+    font-size: 20px;
+    line-height: 23px;
+    margin: 37px auto 29px auto;
+  }
+
   .homeScreen {
     width: 100%;
     padding-left: 18px;
@@ -261,10 +369,54 @@ li p {
     width: 100%;
     height: 113px;
   }
+
+  .firtSteps button {
+    margin-top: 29px;
+    width: 324px;
+    font-size: 18px;
+  }
+
+  .generalInfo {
+    padding: 21px 18px 24px 16px;
+  }
+
+  .generalInfo input::placeholder {
+    font-size: 19px;
+    padding-left: 14px;
+  }
+
+  .successfulCreated h1 {
+    margin-bottom: 29px;
+  }
+
+  .successfulCreated div {
+    width: 340px;
+    height: 181px;
+    margin-bottom: 24px;
+  }
+
+  .successfulCreated div p {
+    font-size: 19px;
+    line-height: 22px;
+    margin-bottom: 10px;
+  }
 }
 
 @media (max-width: 732px) {
   .quizzesList {
     width: 100%;
+  }
+
+  .generalInfo {
+    width: 100%;
+  }
+
+  .firtSteps button {
+    width: 90%;
+  }
+
+  .generalInfo input::placeholder {
+    font-size: 16px;
+    padding-left: 14px;
   }
 }
