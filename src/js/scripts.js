@@ -73,6 +73,7 @@ function openQuizz(response) {
         finalHTML += `<ul class='quizzQuestion'><li><p>${selectedQuizz.questions[i].title}</p></li>`;
         let answers = selectedQuizz.questions[i].answers;
         console.log(answers);
+        shuffleAnswers(answers);
         for (let j=0; j<answers.length; j++) {
             finalHTML += `<li><p>${answers[j].text}</p></li>`
         }
@@ -87,3 +88,14 @@ function gettingOneQuizError(answer) {
     alert(`Erro ao tentar recuperar o quizz desejado! Status: ${answer.response.status}. Por favor, recarregue a página e tente de novo`);
 }
 
+function shuffleAnswers(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    console.log(array);
+}
+
+function clickedAnswer() {
+    
+}

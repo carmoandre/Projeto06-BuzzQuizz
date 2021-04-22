@@ -118,8 +118,6 @@ li p {
   color: #fff;
   line-height: 22px;
   margin-bottom: 7px;
-  overflow: hidden;
-  text-overflow: ellipsis;
   max-width: 100%;
   word-wrap: break-word;
 }
