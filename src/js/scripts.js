@@ -99,3 +99,8 @@ function shuffleAnswers(array) {
 function clickedAnswer() {
     
 }
+
+function homeAndCreateScreenTransition(quizzID) {
+    homeScreenElement.classList.toggle("hiddingClass");
+    createQuizzScreenElement.classList.toggle("hiddingClass");
+}

@@ -1,6 +1,13 @@
 body {
   font-family: "Roboto", sans-serif;
-  background: #e5e5e5;
+  background: #fafafa;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 23px;
+  line-height: 27px;
+  margin: 71px auto 27px auto;
 }
 
 .header {
@@ -90,7 +97,8 @@ body {
   justify-content: space-between;
 }
 
-.quizzes li {
+.quizzes li,
+.successfulCreated div {
   background: linear-gradient(
       180deg,
       rgba(255, 255, 255, 0) 0%,
@@ -111,7 +119,8 @@ body {
   margin-bottom: 12px;
 }
 
-li p {
+li p,
+.successfulCreated div p {
   font-size: 19px;
   padding-left: 19px;
   padding-right: 19px;
@@ -178,11 +187,60 @@ li p {
   background-repeat: no-repeat;
 }
 
+.firtSteps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.firtSteps button {
+  margin-top: 85px;
+  background: #ec362d;
+  border: none;
+  border-radius: 15px;
+  color: #fff5f4;
+  width: 367px;
+  height: 54px;
+  font-size: 21px;
+}
+
+.generalInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 21px 20px 24px 16px;
+  background: #fff;
+  width: 600px;
+  height: 256px;
+}
+
+.generalInfo input {
+  width: 100%;
+  height: 46px;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+}
+
+.generalInfo input::placeholder {
+  font-style: italic;
+  font-size: 19px;
+  padding-left: 23px;
+  color: #bababa;
+}
+
 .hiddingClass {
   display: none;
 }
 
 @media (max-width: 1100px) {
+  h1 {
+    font-size: 20px;
+    line-height: 23px;
+    margin: 37px auto 29px auto;
+  }
+
   .homeScreen {
     width: 100%;
     padding-left: 18px;
@@ -205,10 +263,38 @@ li p {
   .quizzes {
     justify-content: space-around;
   }
+
+  .firtSteps button {
+    margin-top: 29px;
+    width: 324px;
+    font-size: 18px;
+  }
+
+  .generalInfo {
+    padding: 21px 18px 24px 16px;
+  }
+
+  .generalInfo input::placeholder {
+    font-size: 19px;
+    padding-left: 14px;
+  }
 }
 
 @media (max-width: 732px) {
   .quizzesList {
     width: 100%;
+  }
+
+  .generalInfo {
+    width: 100%;
+  }
+
+  .firtSteps button {
+    width: 90%;
+  }
+
+  .generalInfo input::placeholder {
+    font-size: 16px;
+    padding-left: 14px;
   }
 }

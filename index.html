@@ -15,15 +15,15 @@
 <body>
     <div class="header">BuzzQuizz</div>
     <div class="distance"></div>
-    <div class="homeScreen">
+    <div class="homeScreen hiddingClass">
         <div class="myQuizzes emptyList">
             <p>Você não criou nenhum<br>quizz ainda :(</p>
-            <button onclick="temp()">Criar Quizz</button>
+            <button onclick="homeAndCreateScreenTransition()">Criar Quizz</button>
         </div>
         <div class="myQuizzes quizzesList hiddingClass">
             <div class="listTitle">
                 <h1>Seus Quizzes</h1>
-                <ion-icon name="add-circle"></ion-icon>
+                <ion-icon onclick="homeAndCreateScreenTransition()" name="add-circle"></ion-icon>
             </div>
             <ul class="quizzes"></ul>
         </div>
@@ -67,9 +67,25 @@
         </div>
         <div class="quizzResult"></div>
     </div>
-    <div class="createQuizzScreen"></div>
-
-    
+    <div class="createQuizzScreen ">
+        <div class="firtSteps">
+            <h1>Comece pelo começo</h1>
+            <div class="generalInfo">
+                <input type="text" placeholder="Título do seu quizz">
+                <input type="text" placeholder="URL da imagem do seu quizz">
+                <input type="text" placeholder="Quantidade de perguntas do quizz">
+                <input type="text" placeholder="Quantidade de níveis">
+            </div>
+            <button onclick="temp()">Prosseguir pra criar pergutnas</button>
+        </div>
+        <div class="createQuestions"></div>
+        <div class="successfulCreated hiddingClass">
+            <h1>Seu quizz está pronto</h1>
+            <div></div>
+            <button onclick="temp()">Acessar Quizz</button>
+            <button onclick="temp()">Voltar pra home</button>
+        </div>
+    </div>
     <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="src/js/scripts.js"></script>
