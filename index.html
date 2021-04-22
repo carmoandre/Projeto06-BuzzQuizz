@@ -67,21 +67,25 @@
         </div>
         <div class="quizzResult"></div>
     </div>
-    <div class="createQuizzScreen ">
-        <div class="firtSteps">
+    <div class="createQuizzScreen">
+        <div class="firtSteps hiddingClass">
             <h1>Comece pelo começo</h1>
             <div class="generalInfo">
-                <input type="text" placeholder="Título do seu quizz">
-                <input type="text" placeholder="URL da imagem do seu quizz">
-                <input type="text" placeholder="Quantidade de perguntas do quizz">
-                <input type="text" placeholder="Quantidade de níveis">
+                <input name="quizzTitle" type="text" required="required" placeholder="Título do seu quizz">
+                <input name="quizzImageURL" type="url" required="required" placeholder="URL da imagem do seu quizz">
+                <input name="NumberOfQuestions" type="number" required="required" placeholder="Quantidade de perguntas do quizz">
+                <input name="NumberOflevels" type="number" required="required" placeholder="Quantidade de níveis">
             </div>
-            <button onclick="temp()">Prosseguir pra criar pergutnas</button>
+            <!--<input id="btn" type="submit" name="firtStepsBTN" onclick="temp()" value="Prosseguir pra criar perguntas">-->
+            <button onclick="temp()">Prosseguir pra criar perguntas</button>
         </div>
-        <div class="createQuestions"></div>
-        <div class="successfulCreated hiddingClass">
+        <div class="createQuestions hiddingClass"></div>
+        <div class="createLevels hiddingClass"></div>
+        <div class="successfulCreated">
             <h1>Seu quizz está pronto</h1>
-            <div></div>
+            <div onclick="temp()">
+                <p>Teste de título</p>
+            </div>
             <button onclick="temp()">Acessar Quizz</button>
             <button onclick="temp()">Voltar pra home</button>
         </div>

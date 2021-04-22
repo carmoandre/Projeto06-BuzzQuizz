@@ -97,8 +97,7 @@ h1 {
   justify-content: space-between;
 }
 
-.quizzes li,
-.successfulCreated div {
+.quizzes li {
   background: linear-gradient(
       180deg,
       rgba(255, 255, 255, 0) 0%,
@@ -119,14 +118,13 @@ h1 {
   margin-bottom: 12px;
 }
 
-li p,
-.successfulCreated div p {
+li p {
   font-size: 19px;
   padding-left: 19px;
   padding-right: 19px;
   color: #fff;
   line-height: 22px;
-  margin-bottom: 7px;
+  margin-bottom: 45px;
   max-width: 100%;
   word-wrap: break-word;
 }
@@ -187,7 +185,10 @@ li p,
   background-repeat: no-repeat;
 }
 
-.firtSteps {
+.firtSteps,
+.createQuestions,
+.createLevels,
+.successfulCreated {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -230,6 +231,55 @@ li p,
   color: #bababa;
 }
 
+.successfulCreated h1 {
+  margin-bottom: 46px;
+}
+
+.successfulCreated div {
+  background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(0, 0, 0, 0.5) 64.58%,
+      #000000 100%
+    ),
+    url("https://rollingstone.uol.com.br/media/_versions/os-simpsons-teoria-final_widelg.jpg");
+
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 500px;
+  height: 266px;
+  border-radius: 5px;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 45px;
+}
+
+.successfulCreated div p {
+  font-size: 23px;
+  padding-left: 19px;
+  padding-right: 19px;
+  color: #fff;
+  line-height: 27px;
+  margin-bottom: 20px;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.successfulCreated button {
+  background: #ec362d;
+  border: none;
+  border-radius: 15px;
+  color: #fff5f4;
+  width: 220px;
+  height: 44px;
+  font-size: 21px;
+}
+
+.successfulCreated button:last-child {
+  background: inherit;
+  color: #818181;
+  margin-top: 9px;
+}
 .hiddingClass {
   display: none;
 }
@@ -277,6 +327,22 @@ li p,
   .generalInfo input::placeholder {
     font-size: 19px;
     padding-left: 14px;
+  }
+
+  .successfulCreated h1 {
+    margin-bottom: 29px;
+  }
+
+  .successfulCreated div {
+    width: 340px;
+    height: 181px;
+    margin-bottom: 24px;
+  }
+
+  .successfulCreated div p {
+    font-size: 19px;
+    line-height: 22px;
+    margin-bottom: 10px;
   }
 }
 
