@@ -284,7 +284,12 @@ function expandCollapseEffect(element) {
 }
 
 function fromFirstStepsToCreateQuestions(element) {
-    //validação de valor no campo
+    
+    if (!validateFirstStepsFieldsValues(element)) {
+        alert("Algum dos campos não foi preenchido corretamente. Por favor, tente novamente.")
+        return;
+    }
+
     newQuizz.title = document.getElementsByName("quizzTitle")[0].value;
     newQuizz.image = document.getElementsByName("quizzImageURL")[0].value;
     numberOfQuestions = document.getElementsByName("numberOfQuestions")[0].value;
@@ -297,6 +302,35 @@ function fromFirstStepsToCreateQuestions(element) {
     document.querySelector(".firstSteps").classList.toggle("hiddingClass");
     document.querySelector(".createQuestions").classList.toggle("hiddingClass");
 
+}
+
+function validateFirstStepsFieldsValues (element) {
+    let title = document.getElementsByName("quizzTitle")[0].value;
+    let questionsNum = document.getElementsByName("numberOfQuestions")[0].value;
+    let levelsNum = document.getElementsByName("numberOfLevels")[0].value;
+    
+    let image = document.getElementsByName("quizzImageURL")[0].value;
+    let pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+
+    
+    if (title.length < 20 || title.length > 65) {
+        return false;
+    }
+    
+    if (questionsNum < 3) {
+        return false;
+    }
+
+    if (levelsNum < 2) {
+        return false;
+    }
+
+    return !!pattern.test(image);
 }
 
 function renderQuestions() {
