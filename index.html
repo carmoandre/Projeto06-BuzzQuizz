@@ -37,26 +37,44 @@
     </div>
     <div class="quizzInsideScreen hiddingClass"></div>
     <div class="createQuizzScreen hiddingClass">
-        <div class="firtSteps hiddingClass">
+        <div class="firstSteps">
             <h1>Comece pelo começo</h1>
             <div class="generalInfo">
                 <input name="quizzTitle" type="text" required="required" placeholder="Título do seu quizz">
                 <input name="quizzImageURL" type="url" required="required" placeholder="URL da imagem do seu quizz">
-                <input name="NumberOfQuestions" type="number" required="required" placeholder="Quantidade de perguntas do quizz">
-                <input name="NumberOflevels" type="number" required="required" placeholder="Quantidade de níveis">
+                <input name="numberOfQuestions" type="number" required="required" placeholder="Quantidade de perguntas do quizz">
+                <input name="numberOfLevels" type="number" required="required" placeholder="Quantidade de níveis">
             </div>
             <!--<input id="btn" type="submit" name="firtStepsBTN" onclick="temp()" value="Prosseguir pra criar perguntas">-->
-            <button onclick="temp()">Prosseguir pra criar perguntas</button>
+            <button onclick="fromFirstStepsToCreateQuestions(this)">Prosseguir pra criar perguntas</button>
         </div>
-        <div class="createQuestions hiddingClass"></div>
-        <div class="createLevels hiddingClass"></div>
-        <div class="successfulCreated">
+        <div class="createQuestions hiddingClass">
+            <h1>Criar suas perguntas</h1>
+            <button onclick="">Prosseguir pra criar níveis</button>
+        </div>
+        <div class="createLevels hiddingClass">
+            <h1>Agora, decida os níveis</h1>
+            <div id="1" class="createdLevel">
+                <div class="createdLevelTitle" onclick="expandCollapseEffect(this)">
+                    <p>Nível 1</p>
+                    <ion-icon class="hiddingClass" name="create-outline"></ion-icon>
+                </div>
+                <div class="inputGroup">
+                    <input name="levelTitle" type="text" required="required" placeholder="Título do nível">
+                    <input name="levelMinimumPercentage" type="number" required="required" placeholder="% de acerto mínima">
+                    <input name="quizzImageURL" type="url" required="required" placeholder="URL da imagem do nível">
+                    <input name="levelDescription" type="text" required="required" placeholder="Descrição do nível">
+                </div>
+            </div>
+            <button onclick="">Finalizar Quizz</button>
+        </div>
+        <div class="successfulCreated hiddingClass">
             <h1>Seu quizz está pronto</h1>
-            <div onclick="temp()">
+            <div onclick="fromSuccessfulCreatedToQuizzInsideScreen()">
                 <p>Teste de título</p>
             </div>
-            <button onclick="temp()">Acessar Quizz</button>
-            <button onclick="temp()">Voltar pra home</button>
+            <button onclick="fromSuccessfulCreatedToQuizzInsideScreen()">Acessar Quizz</button>
+            <button onclick="fromSuccessfulCreatedToHomeScreen()">Voltar pra home</button>
         </div>
     </div>
     <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
