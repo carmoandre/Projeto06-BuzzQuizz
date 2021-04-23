@@ -45,7 +45,7 @@ function renderWithAnswer(answer){
 }
 
 function gettingAllQuizzesError(answer) {
-    alert(`Erro ao tentar recuperar os Quizess! Status: ${answer.status}. Por favor, recarregue a página e tente de novo`);
+    alert(`Erro ao tentar recuperar os Quizess! Status: ${answer.response.status}. Por favor, recarregue a página e tente de novo`);
 }
 
 function renderQuizzes(quizzesList) {
@@ -436,6 +436,7 @@ function postNewQuizz() {
 
 function showFinalScreen(answer) {
     saveNewQuizzOnLocalStorage(answer.data.id);
+    newQuizz = {};
     const recentlyCreated = document.querySelector(".createdQuizzCard");
     recentlyCreated.style.backgroundImage = `
     linear-gradient(
@@ -446,6 +447,7 @@ function showFinalScreen(answer) {
       ),
       url(${answer.data.image})
     `;
+    recentlyCreated.children[0].innerText = answer.data.title;
     recentlyCreated.id = answer.data.id;
     recentlyCreated.nextElementSibling.id = answer.data.id;
     document.querySelector(".createLevels").classList.toggle("hiddingClass");
@@ -489,7 +491,7 @@ function updateMyQuizzesList() {
     myQuizzesList = [];
     let keys = Object.keys(localStorage);
     for (let i=0; i<keys.length; i++) {
-        let item = localStorage.getItem(key[i]);
+        let item = localStorage.getItem(keys[i]);
         myQuizzesList.push(item);
     }
 }
