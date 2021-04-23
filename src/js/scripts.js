@@ -8,6 +8,7 @@ const lists = document.querySelectorAll(".quizzes");
 const homeScreenElement = document.querySelector(".homeScreen");
 const quizzInsideScreenElement = document.querySelector(".quizzInsideScreen");
 const createQuizzScreenElement = document.querySelector(".createQuizzScreen");
+let atualQuizzId;
 let atualQuestion;
 let selectedQuizz;
 let quizzLevelsMinValues = [];
@@ -16,9 +17,12 @@ let possiblePoints = 0;
 let score = 0;
 let resultLevel;
 let newQuizz = {}
+let newQuizzId;
 let numberOfQuestions = 0;
 let numberOflevels = 0;
 let newQuestions = [];
+let inputsToClean;
+let myQuizzesList = [];
 
 function temp() {
     console.log("Funciona! substituir!");
@@ -38,7 +42,7 @@ function renderWithAnswer(answer){
 }
 
 function gettingAllQuizzesError(answer) {
-    alert(`Erro ao tentar recuperar os Quizess! Status: ${answer.response.status}. Por favor, recarregue a página e tente de novo`);
+    alert(`Erro ao tentar recuperar os Quizess! Status: ${answer.status}. Por favor, recarregue a página e tente de novo`);
 }
 
 function renderQuizzes(quizzesList) {
@@ -70,6 +74,7 @@ function renderQuizz(quizzInfo) {
 }
 
 function toQuizzInsideScreenTransition(quizzID) {
+    atualQuizzId = quizzID;
     getOneQuizz(quizzID);
     homeScreenElement.classList.toggle("hiddingClass");
     quizzInsideScreenElement.classList.toggle("hiddingClass");
@@ -90,8 +95,6 @@ function openQuizz(response) {
         <p>${selectedQuizz.title}</p>
     </div>
     <div class='quizzContent'>`;
-
-    //IMPLEMENTAÇÃO DO HTML DA PÁGINA 2
     for (let i=0; i<selectedQuizz.questions.length; i++) {
         finalHTML += `
         <ul onclick="scrollPage(this)" class='quizzQuestion' id='question${i}'>
@@ -129,6 +132,14 @@ function openQuizz(response) {
         quizzLevelsIds.push(q);
         quizzLevelsMinValues.push(selectedQuizz.levels[q].minValue);
     }
+    finalHTML += `
+    <button class="restartQuizz" onclick="restartAtualQuizz()">
+        Reiniciar quizz
+    </button>
+    <a onclick="returnToHome()" class="returnToHome">
+        Voltar para a home
+    </a>
+    `;
     finalHTML += `</div>`;
     document.querySelector('.quizzInsideScreen').innerHTML = finalHTML;
 
@@ -224,6 +235,19 @@ function scrollToResultScreen() {
     window.scrollTo(scrollOptions);
 }
 
+function restartAtualQuizz() {
+    quizzLevelsMinValues = [];
+    quizzLevelsIds = [];
+    possiblePoints = 0;
+    score = 0;
+    getOneQuizz(atualQuizzId);
+    window.scrollTo(0, 0);
+}
+
+function returnToHome() {
+    document.location.reload();
+}
+
 function homeAndCreateScreenTransition() {
     homeScreenElement.classList.toggle("hiddingClass");
     createQuizzScreenElement.classList.toggle("hiddingClass");
@@ -236,15 +260,14 @@ function expandCollapseEffect(element) {
 
 function fromFirstStepsToCreateQuestions(element) {
     newQuizz.title = document.getElementsByName("quizzTitle")[0].value;
-    //limpar campo
     newQuizz.image = document.getElementsByName("quizzImageURL")[0].value;
-    //limpar campo
     numberOfQuestions = document.getElementsByName("numberOfQuestions")[0].value;
-    //limpar campo
     numberOflevels = document.getElementsByName("numberOfLevels")[0].value;
-    //limpar campo
     renderQuestions();
     renderLevels();
+    // Duas linhas abaixo: limpeza dos campos de input
+    inputsToClean = createQuizzScreenElement.getElementsByTagName("input");
+    cleanFields(inputsToClean)
     document.querySelector(".firstSteps").classList.toggle("hiddingClass");
     document.querySelector(".createQuestions").classList.toggle("hiddingClass");
 
@@ -366,3 +389,18 @@ function fromSuccessfulCreatedToQuizzInsideScreen(element) {
     document.querySelector(".firstSteps").classList.toggle("hiddingClass");
     quizzInsideScreenElement.classList.toggle("hiddingClass");
 }
+
+function cleanFields(fields) {
+    for (let i=0; i < fields.length; i++) {   
+        fields[i].value = "";
+    }
+}
+
+// ESBOÇO DO USO DO LOCAL STORAGE
+// COMANDOS: localStorage.setItem("chave", item) || localStorage.getItem("chave") || JSON.stringify(array ou objeto) || JSON.parse(array ou objeto serializado)
+//function saveNewQuizz() {
+//    newQuizzReturnedId = newQuizzReturned.id;
+//    myQuizzesList.push(newQuizzId);
+//
+//    localStorage.setItem("quizz")
+//}

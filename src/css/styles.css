@@ -159,6 +159,9 @@ li p {
 
 .quizzContent {
   width: 759px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .quizzQuestion {
@@ -242,9 +245,42 @@ li p {
   color: #484848;
 }
 
-.headerBackgroundRules {
-  background-size: cover;
-  background-repeat: no-repeat;
+.restartQuizz {
+  width: 260px;
+  height: 52px;
+  background-color: #ec362d;
+  font-family: Roboto;
+  font-size: 21px;
+  line-height: 25px;
+  color: #FFF5F4;
+  border: none;
+  border-radius: 15px;
+  margin: 57px auto 0px auto;
+  cursor: pointer;
+}
+
+.returnToHome {
+  font-family: Roboto;
+  font-size: 21px;
+  line-height: 25px;
+  color: #818181;
+  margin-top: 16px;
+  margin-bottom: 85px;
+  cursor: pointer;
+}
+
+input {
+  padding-left: 23px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 .firstSteps,
@@ -294,7 +330,6 @@ li p {
 .inputGroup input::placeholder {
   font-style: italic;
   font-size: 19px;
-  padding-left: 23px;
   color: #bababa;
 }
 
