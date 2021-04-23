@@ -325,10 +325,9 @@ function renderLevels() {
 }
 
 function fromCreateQuestionsToCreateLevel(element) {
-    //validações e recolhimento de inputs
+    //validações de inputs
     const allQuestions = document.querySelectorAll(".createdQuestion");
     allQuestions.forEach(getQuestion);
-    //limpar campos
     document.querySelector(".createQuestions").classList.toggle("hiddingClass");
     document.querySelector(".createLevels").classList.toggle("hiddingClass");
 }
@@ -393,8 +392,6 @@ function postNewQuizz() {
 }
 
 function showFinalScreen(answer) {
-    // usar o objeto retornado pra renderizar o card de imagem do quizz recem cadastrado
-    //talves seja uma boa ideia criar os elementos aqui pra incluir o id da quizz recen criado no onclik
     const recentlyCreated = document.querySelector(".createdQuizzCard");
     recentlyCreated.style.backgroundImage = `
     linear-gradient(
@@ -424,7 +421,7 @@ function fromSuccessfulCreatedToHomeScreen() {
 }
 
 function fromSuccessfulCreatedToQuizzInsideScreen(element) {
-    //usar o id (element.id) para fazer o get de um elemento e abrir a tela 2 com a renderização feita 
+    getOneQuizz(element.id);
     document.querySelector(".successfulCreated").classList.toggle("hiddingClass");
     document.querySelector(".firstSteps").classList.toggle("hiddingClass");
     quizzInsideScreenElement.classList.toggle("hiddingClass");
