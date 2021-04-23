@@ -411,6 +411,7 @@ function postNewQuizz() {
 }
 
 function showFinalScreen(answer) {
+    newQuizz = {};
     const recentlyCreated = document.querySelector(".createdQuizzCard");
     recentlyCreated.style.backgroundImage = `
     linear-gradient(
@@ -421,14 +422,15 @@ function showFinalScreen(answer) {
       ),
       url(${answer.data.image})
     `;
-    renderQuestions.id = answer.data.id;
-    renderQuestions.nextElementSibling.id = answer.data.id;
+    recentlyCreated.children[0].innerText = answer.data.title;
+    recentlyCreated.id = answer.data.id;
+    recentlyCreated.nextElementSibling.id = answer.data.id;
     document.querySelector(".createLevels").classList.toggle("hiddingClass");
     document.querySelector(".successfulCreated").classList.toggle("hiddingClass");
     
 }
 
-function postingNewQuizzError() {
+function postingNewQuizzError(answer) {
     alert(`Erro ao criar o Quizz! Status: ${answer.response.status}. Por favor, recarregue a página e tente de novo`);
 }
 
