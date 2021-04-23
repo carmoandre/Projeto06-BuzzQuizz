@@ -15,7 +15,7 @@
 <body>
     <div class="header">BuzzQuizz</div>
     <div class="distance"></div>
-    <div class="homeScreen hiddingClass">
+    <div class="homeScreen">
         <div class="myQuizzes emptyList">
             <p>Você não criou nenhum<br>quizz ainda :(</p>
             <button onclick="homeAndCreateScreenTransition()">Criar Quizz</button>
@@ -67,144 +67,30 @@
         </div>
         <div class="quizzResult"></div>
     </div>
-    <div class="createQuizzScreen">
-        <div class="firtSteps hiddingClass">
+    <div class="createQuizzScreen hiddingClass">
+        <div class="firstSteps">
             <h1>Comece pelo começo</h1>
             <div class="generalInfo">
                 <input name="quizzTitle" type="text" required="required" placeholder="Título do seu quizz">
                 <input name="quizzImageURL" type="url" required="required" placeholder="URL da imagem do seu quizz">
-                <input name="NumberOfQuestions" type="number" required="required" placeholder="Quantidade de perguntas do quizz">
-                <input name="NumberOflevels" type="number" required="required" placeholder="Quantidade de níveis">
+                <input name="numberOfQuestions" type="number" required="required" placeholder="Quantidade de perguntas do quizz">
+                <input name="numberOfLevels" type="number" required="required" placeholder="Quantidade de níveis">
             </div>
             <!--<input id="btn" type="submit" name="firtStepsBTN" onclick="temp()" value="Prosseguir pra criar perguntas">-->
-            <button onclick="temp()">Prosseguir pra criar perguntas</button>
+            <button onclick="fromFirstStepsToCreateQuestions(this)">Prosseguir pra criar perguntas</button>
         </div>
         <div class="createQuestions hiddingClass">
             <h1>Criar suas perguntas</h1>
-            <div id="1" class="createdQuestion">
-                <div class="createdQuestionTitle" onclick="expandCollapseEffect(this)">
-                    <p>Pergunta 1</p>
-                    <ion-icon name="create-outline"></ion-icon>
-                </div>
-                <div class="inputFields">
-                    <div class="inputPair">
-                        <input type="text" placeholder="Texto da pergunta">
-                        <input type="text" placeholder="Cor de Fundo da pergunta">
-                    </div>
-                    <p>Resposta correta</p>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta Correta">
-                        <input type="url" placeholder="URL da imagem">
-                    </div>
-                    <p>Respostas incorretas</p>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta incorreta 1">
-                        <input type="url" placeholder="URL da imagem 1">
-                    </div>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta incorreta 2">
-                        <input type="url" placeholder="URL da imagem 2">
-                    </div>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta incorreta 3">
-                        <input type="url" placeholder="URL da imagem 3">
-                    </div>
-                </div>
-            </div>
-            <div id="2" class="createdQuestion">
-                <div class="createdQuestionTitle" onclick="expandCollapseEffect(this)">
-                    <p>Pergunta 2</p>
-                    <ion-icon name="create-outline"></ion-icon>
-                </div>
-                <div class="inputFields hiddingClass">
-                    <div class="inputPair">
-                        <input type="text" placeholder="Texto da pergunta">
-                        <input type="text" placeholder="Cor de Fundo da pergunta">
-                    </div>
-                    <p>Resposta correta</p>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta Correta">
-                        <input type="url" placeholder="URL da imagem">
-                    </div>
-                    <p>Respostas incorretas</p>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta incorreta 1">
-                        <input type="url" placeholder="URL da imagem 1">
-                    </div>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta incorreta 2">
-                        <input type="url" placeholder="URL da imagem 2">
-                    </div>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta incorreta 3">
-                        <input type="url" placeholder="URL da imagem 3">
-                    </div>
-                </div>
-            </div>
-            <div id="3" class="createdQuestion">
-                <div class="createdQuestionTitle" onclick="expandCollapseEffect(this)">
-                    <p>Pergunta 3</p>
-                    <ion-icon name="create-outline"></ion-icon>
-                </div>
-                <div class="inputFields hiddingClass">
-                    <div class="inputPair">
-                        <input type="text" placeholder="Texto da pergunta">
-                        <input type="text" placeholder="Cor de Fundo da pergunta">
-                    </div>
-                    <p>Resposta correta</p>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta Correta">
-                        <input type="url" placeholder="URL da imagem">
-                    </div>
-                    <p>Respostas incorretas</p>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta incorreta 1">
-                        <input type="url" placeholder="URL da imagem 1">
-                    </div>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta incorreta 2">
-                        <input type="url" placeholder="URL da imagem 2">
-                    </div>
-                    <div class="inputPair">
-                        <input type="text" placeholder="Resposta incorreta 3">
-                        <input type="url" placeholder="URL da imagem 3">
-                    </div>
-                </div>
-            </div>
             <button onclick="">Prosseguir pra criar níveis</button>
         </div>
-        <div class="createLevels">
+        <div class="createLevels hiddingClass">
             <h1>Agora, decida os níveis</h1>
             <div id="1" class="createdLevel">
                 <div class="createdLevelTitle" onclick="expandCollapseEffect(this)">
                     <p>Nível 1</p>
-                    <ion-icon class= "hiddingClass" name="create-outline"></ion-icon>
+                    <ion-icon class="hiddingClass" name="create-outline"></ion-icon>
                 </div>
                 <div class="inputGroup">
-                    <input name="levelTitle" type="text" required="required" placeholder="Título do nível">
-                    <input name="levelMinimumPercentage" type="number" required="required" placeholder="% de acerto mínima">
-                    <input name="quizzImageURL" type="url" required="required" placeholder="URL da imagem do nível">
-                    <input name="levelDescription" type="text" required="required" placeholder="Descrição do nível">
-                </div>
-            </div>
-            <div id="2" class="createdLevel">
-                <div class="createdLevelTitle" onclick="expandCollapseEffect(this)">
-                    <p>Nível 2</p>
-                    <ion-icon name="create-outline"></ion-icon>
-                </div>
-                <div class="inputGroup hiddingClass">
-                    <input name="levelTitle" type="text" required="required" placeholder="Título do nível">
-                    <input name="levelMinimumPercentage" type="number" required="required" placeholder="% de acerto mínima">
-                    <input name="quizzImageURL" type="url" required="required" placeholder="URL da imagem do nível">
-                    <input name="levelDescription" type="text" required="required" placeholder="Descrição do nível">
-                </div>
-            </div>
-            <div id="3" class="createdLevel">
-                <div class="createdLevelTitle" onclick="expandCollapseEffect(this)">
-                    <p>Nível 3</p>
-                    <ion-icon name="create-outline"></ion-icon>
-                </div>
-                <div class="inputGroup hiddingClass">
                     <input name="levelTitle" type="text" required="required" placeholder="Título do nível">
                     <input name="levelMinimumPercentage" type="number" required="required" placeholder="% de acerto mínima">
                     <input name="quizzImageURL" type="url" required="required" placeholder="URL da imagem do nível">

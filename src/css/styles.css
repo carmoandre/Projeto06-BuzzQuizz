@@ -201,7 +201,7 @@ li p {
   background-repeat: no-repeat;
 }
 
-.firtSteps,
+.firstSteps,
 .createQuestions,
 .createLevels,
 .successfulCreated {
@@ -211,7 +211,7 @@ li p {
   justify-content: center;
 }
 
-.firtSteps button,
+.firstSteps button,
 .createQuestions button,
 .createLevels button {
   margin-top: 85px;
@@ -427,7 +427,7 @@ li p {
     height: 113px;
   }
 
-  .firtSteps button,
+  .firstSteps button,
   .createQuestions button,
   .createLevels button {
     margin-top: 29px;
@@ -482,7 +482,7 @@ li p {
     width: 100%;
   }
 
-  .firtSteps button {
+  .firstSteps button {
     width: 90%;
   }
 
