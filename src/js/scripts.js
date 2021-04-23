@@ -19,6 +19,7 @@ let newQuizz = {}
 let numberOfQuestions = 0;
 let numberOflevels = 0;
 let newQuestions = [];
+let newLevels = [];
 
 function temp() {
     console.log("Funciona! substituir!");
@@ -38,7 +39,7 @@ function renderWithAnswer(answer){
 }
 
 function gettingAllQuizzesError(answer) {
-    alert(`Erro ao tentar recuperar os Quizess! Status: ${answer.response.status}. Por favor, recarregue a página e tente de novo`);
+    alert(`Erro ao tentar recuperar os Quizzes! Status: ${answer.response.status}. Por favor, recarregue a página e tente de novo`);
 }
 
 function renderQuizzes(quizzesList) {
@@ -235,16 +236,21 @@ function expandCollapseEffect(element) {
 }
 
 function fromFirstStepsToCreateQuestions(element) {
+    //validação de valor no campo
     newQuizz.title = document.getElementsByName("quizzTitle")[0].value;
     //limpar campo
+    //validação de valor no campo
     newQuizz.image = document.getElementsByName("quizzImageURL")[0].value;
     //limpar campo
+    //validação de valor no campo
     numberOfQuestions = document.getElementsByName("numberOfQuestions")[0].value;
     //limpar campo
+    //validação de valor no campo
     numberOflevels = document.getElementsByName("numberOfLevels")[0].value;
     //limpar campo
     renderQuestions();
     renderLevels();
+
     document.querySelector(".firstSteps").classList.toggle("hiddingClass");
     document.querySelector(".createQuestions").classList.toggle("hiddingClass");
 
@@ -320,48 +326,105 @@ function renderLevels() {
 
 function fromCreateQuestionsToCreateLevel(element) {
     //validações e recolhimento de inputs
-    //const allQuestion = document.querySelectorAll(".createdQuestion");
-    //allQuestion.forEach(getQuestion);
+    const allQuestions = document.querySelectorAll(".createdQuestion");
+    allQuestions.forEach(getQuestion);
     //limpar campos
     document.querySelector(".createQuestions").classList.toggle("hiddingClass");
     document.querySelector(".createLevels").classList.toggle("hiddingClass");
 }
 
 
-function getQuestion(element, index) {
+function getQuestion(element) {
     let object = {};
-    const answers = [];
-    object.title = `Título da pergunta ${index+1}`;
+    object.title = element.querySelector(".questionText").value;
     object.color = element.querySelector(".questionBGcolor").value;
-    object.answers = getAnswers(element, answers);
+    object.answers = getAnswers(element);
     newQuestions.push(object);
-    console.log(`Objeto ${index+1} gerado até então: ${newQuestions[index]}`);
 }
 
-function getAnswers(element, answers) {
-    
-    return answer
+function getAnswers(element) {
+    const answersArray = [];
+    const allAnswers = element.querySelectorAll(".inputPair");
+    for (let i = 1; i < allAnswers.length; i++) {
+        const object = {}
+        object.text = allAnswers[i].children[0].value;
+        object.image = allAnswers[i].children[1].value;
+        if (i === 1) {
+            object.isCorrectAnswer = true;
+        } else {
+            object.isCorrectAnswer = false;
+        }
+        answersArray.push(object);
+    }
+    return answersArray;
 }
 
 
 function fromCreateLevelsTosuccessfulCreated(element) {
-    //validações e recolhimento de inputs
-    ///post comm retorno do objeto
+    //validações dos inputs
+    const levels = document.querySelectorAll(".createdLevel");
+    levels.forEach(getLevels);
+
+    buildNewQuizz(); 
+    postNewQuizz();    
+}
+
+function getLevels(element) {
+    const levelInfo = element.querySelectorAll(".inputGroup");
+    const object = {
+        title: levelInfo[0].children[0].value,
+        image: levelInfo[0].children[2].value,
+        text: levelInfo[0].children[3].value,
+        minValue: levelInfo[0].children[1].value
+    }
+    newLevels.push(object);
+}
+
+function buildNewQuizz() {
+    newQuizz.questions = newQuestions;
+    newQuizz.levels = newLevels;
+}
+
+function postNewQuizz() {
+    const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes");
+
+    request.then(showFinalScreen);
+    request.catch(postingNewQuizzError);
+}
+
+function showFinalScreen(answer) {
     // usar o objeto retornado pra renderizar o card de imagem do quizz recem cadastrado
-    //limpar campo
     //talves seja uma boa ideia criar os elementos aqui pra incluir o id da quizz recen criado no onclik
+    const recentlyCreated = document.querySelector(".createdQuizzCard");
+    recentlyCreated.style.backgroundImage = `
+    linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(0, 0, 0, 0.5) 64.58%,
+        #000000 100%
+      ),
+      url(${answer.data.image})
+    `;
+    renderQuestions.id = answer.data.id;
+    renderQuestions.nextElementSibling.id = answer.data.id;
     document.querySelector(".createLevels").classList.toggle("hiddingClass");
     document.querySelector(".successfulCreated").classList.toggle("hiddingClass");
+    
+}
+
+function postingNewQuizzError() {
+    alert(`Erro ao criar o Quizz! Status: ${answer.response.status}. Por favor, recarregue a página e tente de novo`);
 }
 
 function fromSuccessfulCreatedToHomeScreen() {
     document.querySelector(".successfulCreated").classList.toggle("hiddingClass");
     document.querySelector(".firstSteps").classList.toggle("hiddingClass");
-    homeAndCreateScreenTransition()
+    getAllQuizzes();
+    homeAndCreateScreenTransition();
 }
 
 function fromSuccessfulCreatedToQuizzInsideScreen(element) {
-    //usar o id para fazer o get de um elemento e abrir a tela 2 com a renderização feita 
+    //usar o id (element.id) para fazer o get de um elemento e abrir a tela 2 com a renderização feita 
     document.querySelector(".successfulCreated").classList.toggle("hiddingClass");
     document.querySelector(".firstSteps").classList.toggle("hiddingClass");
     quizzInsideScreenElement.classList.toggle("hiddingClass");
