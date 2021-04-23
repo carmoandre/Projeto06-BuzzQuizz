@@ -9,6 +9,12 @@ const homeScreenElement = document.querySelector(".homeScreen");
 const quizzInsideScreenElement = document.querySelector(".quizzInsideScreen");
 const createQuizzScreenElement = document.querySelector(".createQuizzScreen");
 let atualQuestion;
+let selectedQuizz;
+let quizzLevelsMinValues = [];
+let quizzLevelsIds = [];
+let possiblePoints = 0;
+let score = 0;
+let resultLevel;
 
 function temp() {
     console.log("Funciona! substituir!");
@@ -74,34 +80,74 @@ function getOneQuizz(quizzID) {
 }
 
 function openQuizz(response) {
-    let selectedQuizz = response.data;
-    let finalHTML = `<div class='quizzHeader'><p>${selectedQuizz.title}</p></div><div class='quizzContent'>`;
+    selectedQuizz = response.data;
+    let finalHTML = `
+    <div class='quizzHeader'>
+        <p>${selectedQuizz.title}</p>
+    </div>
+    <div class='quizzContent'>`;
 
     //IMPLEMENTAÇÃO DO HTML DA PÁGINA 2
     for (let i=0; i<selectedQuizz.questions.length; i++) {
-        finalHTML += `<ul onclick="scrollPage(this)" class='quizzQuestion' id='question${i}'><li style='background-color: ${selectedQuizz.questions[i].color}'><p>${selectedQuizz.questions[i].title}</p></li>`;
+        finalHTML += `
+        <ul onclick="scrollPage(this)" class='quizzQuestion' id='question${i}'>
+            <li style='background-color: ${selectedQuizz.questions[i].color}'>
+                <p>${selectedQuizz.questions[i].title}</p>
+            </li>
+            `;
         let answers = selectedQuizz.questions[i].answers;
         shuffleAnswers(answers);
         for (let j=0; j<answers.length; j++) {
             console.log(answers[j].isCorrectAnswer);
-            finalHTML += `<li value=${answers[j].isCorrectAnswer} id='possibleAnswer' name='answer${j}'><img src='${answers[j].image}' width="330px" height="175px"><h1>${answers[j].text}</h1></li>`
+            finalHTML += `
+            <li value=${answers[j].isCorrectAnswer} id='possibleAnswer' name='answer${j}'>
+                <img src='${answers[j].image}' width="330px" height="175px">
+                <h1>${answers[j].text}</h1>
+            </li>
+            `;
         }
         finalHTML += `</ul>`
-        document.querySelector('.quizzInsideScreen').innerHTML = finalHTML;
     }
-    document.querySelector('.quizzHeader').style.backgroundImage = `linear-gradient(0deg, rgba(0, 0, 0, 0.57), rgba(0, 0, 0, 0.57)), url(${selectedQuizz.image})`;
-    document.querySelector('.quizzInsideScreen').innerHTML += `</div>`;
+    for (let q=0; q<selectedQuizz.levels.length; q++) {
+        finalHTML += `
+        <ul class='quizzResult level${q} hiddingClass'>
+            <li style='background-color: #EC362D'>
+                <p id='resultScreenTitle'>${selectedQuizz.levels[q].title}</p>
+            </li>
+            <li>
+                <img src='${selectedQuizz.levels[q].image}' width="364px" height="273px">
+            </li>
+            <li>
+                <h1>${selectedQuizz.levels[q].text}</h1>
+            </li>
+        </ul>
+        `;
+        quizzLevelsIds.push(q);
+        quizzLevelsMinValues.push(selectedQuizz.levels[q].minValue);
+    }
+    finalHTML += `</div>`;
+    document.querySelector('.quizzInsideScreen').innerHTML = finalHTML;
+
+    document.querySelector('.quizzHeader').style.backgroundImage = `
+    linear-gradient(
+            0deg, 
+            rgba(0, 0, 0, 0.60), 
+            rgba(0, 0, 0, 0.60)
+        ), 
+     url(${selectedQuizz.image})
+    `;
 
     //IMPLEMENTAÇÃO DA FUNÇÃO QUE ALTERA A OPACIDADE DAS ALTERNATIVAS NÃO-SELECIONADAS & COLORE OS TEXTOS DAS ALTERNATIVAS
     let possibleAnswers = quizzInsideScreenElement.querySelectorAll('#possibleAnswer');
-    console.log(possibleAnswers);
     for (let i=0; i<possibleAnswers.length; i++) {
         possibleAnswers[i].onclick = function() { 
+            possiblePoints += 1;
             let answeredQuestion = this.parentElement.querySelectorAll('#possibleAnswer');
             let verifier = this;
+            if (verifier.attributes.getNamedItem("value").value == 'true') {
+                score += 1;
+            }
             for (let k=0; k<answeredQuestion.length; k++) {
-                console.log(answeredQuestion[k]);
-                console.log(answeredQuestion[k].attributes.value);
                 let greenOrRed = answeredQuestion[k].attributes.getNamedItem("value").value;
                 if (greenOrRed == 'true') {
                     answeredQuestion[k].style.color = 'green';
@@ -113,6 +159,23 @@ function openQuizz(response) {
                     answeredQuestion[k].classList.add('whiteShade');
                     answeredQuestion[k].onclick = null;
                 }
+            }
+            if (possiblePoints == selectedQuizz.questions.length) {
+                let percentualScore = ((score / possiblePoints) * 100);
+                let stop = 0;
+                for (let r=quizzLevelsMinValues.length-1; r>=0; r--) {
+                    if (stop == 0) {
+                        if (percentualScore >= quizzLevelsMinValues[r]) {
+                            let correspondentResult = quizzInsideScreenElement.querySelector(`.level${r}`);
+                            correspondentResult.classList.remove('hiddingClass');
+                            resultLevel = correspondentResult;
+                            let x = `${percentualScore}% de acerto: ` + resultLevel.querySelector('#resultScreenTitle').innerText;
+                            resultLevel.querySelector('#resultScreenTitle').innerText = x;
+                            stop = 1;
+                        }
+                    }
+                }
+                setTimeout(scrollToResultScreen, 2000);
             }
         }
     }
@@ -134,13 +197,24 @@ function shuffleAnswers(array) {
 
 function scrollPage(question) {
     atualQuestion = question;
-    setTimeout(scrollToNextQuestion, 2000)
+    if (possiblePoints < selectedQuizz.questions.length) {
+        setTimeout(scrollToNextQuestion, 2000)
+    }
 }
 
 function scrollToNextQuestion() {
-    let nextPosition = atualQuestion.nextSibling.offsetTop - 50;
+    let nextPosition = atualQuestion.nextElementSibling.offsetTop - 50;
     let scrollOptions = {
         top: nextPosition,
+        behavior: 'smooth'
+    }
+    window.scrollTo(scrollOptions);
+}
+
+function scrollToResultScreen() {
+    let resultScreen = resultLevel.offsetTop - 50;
+    scrollOptions = {
+        top: resultScreen,
         behavior: 'smooth'
     }
     window.scrollTo(scrollOptions);
