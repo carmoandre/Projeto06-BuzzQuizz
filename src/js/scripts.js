@@ -5,6 +5,7 @@ window.onbeforeunload = function () {
 }
 
 const lists = document.querySelectorAll(".quizzes");
+const myQuizzesElements = document.querySelectorAll(".myQuizzes");
 const homeScreenElement = document.querySelector(".homeScreen");
 const quizzInsideScreenElement = document.querySelector(".quizzInsideScreen");
 const createQuizzScreenElement = document.querySelector(".createQuizzScreen");
@@ -17,13 +18,14 @@ let possiblePoints = 0;
 let score = 0;
 let resultLevel;
 let newQuizz = {}
-let newQuizzId;
 let numberOfQuestions = 0;
-let numberOflevels = 0;
+let numberOfLevels = 0;
 let newQuestions = [];
 let inputsToClean;
-let myQuizzesList = [];
 let newLevels = [];
+
+let myQuizzesList = [];
+updateMyQuizzesList();
 
 function temp() {
     console.log("Funciona! substituir!");
@@ -57,7 +59,26 @@ function resetQuizzesLists() {
 }
 
 function renderQuizz(quizzInfo) {
-    //TODO comparação com os ids dos meus quizz pra distribuir entre as listas
+    //CASO SEJA UM DOS QUIZZES DO USUÁRIO:
+    for (let i=0; i<myQuizzesList.length; i++) {
+        if (quizzInfo == myQuizzesList[i]) {
+                lists[0].innerHTML += `
+                <li id="${quizzInfo.id}" onclick="toQuizzInsideScreenTransition(${quizzInfo.id})">
+                    <p>${quizzInfo.title}</p>
+                </li>
+            `;
+            document.getElementById(quizzInfo.id).style.backgroundImage = `
+            linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(0, 0, 0, 0.5) 64.58%,
+                #000000 100%
+            ),
+            url(${quizzInfo.image})
+            `;
+        }
+    }
+    //CASO NÃO SEJA UM DOS QUIZZES DO USUÁRIO:
     lists[1].innerHTML += `
         <li id="${quizzInfo.id}" onclick="toQuizzInsideScreenTransition(${quizzInfo.id})">
             <p>${quizzInfo.title}</p>
@@ -90,6 +111,9 @@ function getOneQuizz(quizzID) {
 }
 
 function openQuizz(response) {
+    if (myQuizzesList.length >= 1) {
+        myQuizzesElements.classList.toggle("hiddingClass");
+    }
     selectedQuizz = response.data;
     let finalHTML = `
     <div class='quizzHeader'>
@@ -411,6 +435,7 @@ function postNewQuizz() {
 }
 
 function showFinalScreen(answer) {
+    saveNewQuizzOnLocalStorage(answer.data.id);
     const recentlyCreated = document.querySelector(".createdQuizzCard");
     recentlyCreated.style.backgroundImage = `
     linear-gradient(
@@ -421,14 +446,14 @@ function showFinalScreen(answer) {
       ),
       url(${answer.data.image})
     `;
-    renderQuestions.id = answer.data.id;
-    renderQuestions.nextElementSibling.id = answer.data.id;
+    recentlyCreated.id = answer.data.id;
+    recentlyCreated.nextElementSibling.id = answer.data.id;
     document.querySelector(".createLevels").classList.toggle("hiddingClass");
     document.querySelector(".successfulCreated").classList.toggle("hiddingClass");
     
 }
 
-function postingNewQuizzError() {
+function postingNewQuizzError(answer) {
     alert(`Erro ao criar o Quizz! Status: ${answer.response.status}. Por favor, recarregue a página e tente de novo`);
 }
 
@@ -452,11 +477,19 @@ function cleanFields(fields) {
     }
 }
 
-// ESBOÇO DO USO DO LOCAL STORAGE
+// ESBOÇO DO USO DO LOCAL STORAGE:
 // COMANDOS: localStorage.setItem("chave", item) || localStorage.getItem("chave") || JSON.stringify(array ou objeto) || JSON.parse(array ou objeto serializado)
-//function saveNewQuizz() {
-//    newQuizzReturnedId = newQuizzReturned.id;
-//    myQuizzesList.push(newQuizzId);
-//
-//    localStorage.setItem("quizz")
-//}
+
+function saveNewQuizzOnLocalStorage(newQuizzId) {
+    localStorage.setItem(`${newQuizzId}`, newQuizzId);
+    updateMyQuizzesList();
+}
+
+function updateMyQuizzesList() {
+    myQuizzesList = [];
+    let keys = Object.keys(localStorage);
+    for (let i=0; i<keys.length; i++) {
+        let item = localStorage.getItem(key[i]);
+        myQuizzesList.push(item);
+    }
+}
