@@ -386,7 +386,7 @@ function buildNewQuizz() {
 }
 
 function postNewQuizz() {
-    const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes");
+    const request = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/buzzquizz/quizzes", newQuizz);
 
     request.then(showFinalScreen);
     request.catch(postingNewQuizzError);
