@@ -3,6 +3,10 @@ body {
   background: #fafafa;
 }
 
+button {
+  cursor: pointer;
+}
+
 h1 {
   font-weight: 700;
   font-size: 23px;
@@ -72,14 +76,14 @@ h1 {
 }
 
 .myQuizzes.quizzesList {
-  margin-top: 65px;
+  margin-top: 35px;
   margin-bottom: 48px;
 }
 
 .listTitle {
   width: 100%;
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 13px;
@@ -95,6 +99,7 @@ h1 {
   cursor: pointer;
   font-size: 37px;
   margin-left: 17px;
+  margin-top: 67px;
 }
 
 .quizzes {

@@ -5,6 +5,8 @@ window.onbeforeunload = function () {
 }
 
 const lists = document.querySelectorAll(".quizzes");
+const myQuizzesEmpty = document.querySelector(".emptyList");
+const myQuizzesFull = document.querySelector(".quizzesList");
 const homeScreenElement = document.querySelector(".homeScreen");
 const quizzInsideScreenElement = document.querySelector(".quizzInsideScreen");
 const createQuizzScreenElement = document.querySelector(".createQuizzScreen");
@@ -17,17 +19,23 @@ let possiblePoints = 0;
 let score = 0;
 let resultLevel;
 let newQuizz = {}
-let newQuizzId;
 let numberOfQuestions = 0;
-let numberOflevels = 0;
+let numberOfLevels = 0;
 let newQuestions = [];
 let inputsToClean;
-let myQuizzesList = [];
 let newLevels = [];
 let questionFieldsValidation = false;
 
+let myQuizzesList = [];
+updateMyQuizzesList();
+
 function temp() {
     console.log("Funciona! substituir!");
+}
+
+if (myQuizzesList.length > 0) {
+    myQuizzesEmpty.classList.toggle("hiddingClass");
+    myQuizzesFull.classList.toggle("hiddingClass");
 }
 
 getAllQuizzes()
@@ -39,12 +47,12 @@ function getAllQuizzes() {
     request.catch(gettingAllQuizzesError);
 }
 
-function renderWithAnswer(answer){
+function renderWithAnswer(answer) {
     renderQuizzes(answer.data);
 }
 
 function gettingAllQuizzesError(answer) {
-    alert(`Erro ao tentar recuperar os Quizess! Status: ${answer.status}. Por favor, recarregue a página e tente de novo`);
+    alert(`Erro ao tentar recuperar os Quizess! Status: ${answer.response.status}. Por favor, recarregue a página e tente de novo`);
 }
 
 function renderQuizzes(quizzesList) {
@@ -53,26 +61,66 @@ function renderQuizzes(quizzesList) {
 }
 
 function resetQuizzesLists() {
-    lists[0].innerHTML= "";
-    lists[1].innerHTML= "";
+    lists[0].innerHTML = "";
+    lists[1].innerHTML = "";
 }
 
 function renderQuizz(quizzInfo) {
-    //TODO comparação com os ids dos meus quizz pra distribuir entre as listas
-    lists[1].innerHTML += `
+    if (myQuizzesList.length > 0) {
+        //CASO SEJA UM DOS QUIZZES DO USUÁRIO:
+        for (let i = 0; i < myQuizzesList.length; i++) {
+            if (quizzInfo.id == myQuizzesList[i]) {
+                lists[0].innerHTML += `
+                <li id="${quizzInfo.id}" onclick="toQuizzInsideScreenTransition(${quizzInfo.id})">
+                    <p>${quizzInfo.title}</p>
+                </li>
+                `;
+                document.getElementById(quizzInfo.id).style.backgroundImage = `
+                linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(0, 0, 0, 0.5) 64.58%,
+                    #000000 100%
+                ),
+                url(${quizzInfo.image})
+                `;
+            }
+        }
+        //CASO NÃO SEJA UM DOS QUIZZES DO USUÁRIO:
+        for (let i = 0; i < myQuizzesList.length; i++) {
+            if (quizzInfo.id != myQuizzesList[i]) {
+                lists[1].innerHTML += `
+                <li id="${quizzInfo.id}" onclick="toQuizzInsideScreenTransition(${quizzInfo.id})">
+                    <p>${quizzInfo.title}</p>
+                </li>
+                `;
+                document.getElementById(quizzInfo.id).style.backgroundImage = `
+                linear-gradient(
+                    180deg,
+                    rgba(255, 255, 255, 0) 0%,
+                    rgba(0, 0, 0, 0.5) 64.58%,
+                    #000000 100%
+                ),
+                url(${quizzInfo.image})
+                `;
+            }
+        }
+    } else {
+        lists[1].innerHTML += `
         <li id="${quizzInfo.id}" onclick="toQuizzInsideScreenTransition(${quizzInfo.id})">
             <p>${quizzInfo.title}</p>
         </li>
-    `;
-    document.getElementById(quizzInfo.id).style.backgroundImage = `
-    linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(0, 0, 0, 0.5) 64.58%,
-        #000000 100%
-      ),
-      url(${quizzInfo.image})
-    `;
+        `;
+        document.getElementById(quizzInfo.id).style.backgroundImage = `
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(0, 0, 0, 0.5) 64.58%,
+            #000000 100%
+        ),
+        url(${quizzInfo.image})
+        `;
+    }
 }
 
 function toQuizzInsideScreenTransition(quizzID) {
@@ -97,7 +145,7 @@ function openQuizz(response) {
         <p>${selectedQuizz.title}</p>
     </div>
     <div class='quizzContent'>`;
-    for (let i=0; i<selectedQuizz.questions.length; i++) {
+    for (let i = 0; i < selectedQuizz.questions.length; i++) {
         finalHTML += `
         <ul onclick="scrollPage(this)" class='quizzQuestion' id='question${i}'>
             <li style='background-color: ${selectedQuizz.questions[i].color}'>
@@ -106,7 +154,7 @@ function openQuizz(response) {
             `;
         let answers = selectedQuizz.questions[i].answers;
         shuffleAnswers(answers);
-        for (let j=0; j<answers.length; j++) {
+        for (let j = 0; j < answers.length; j++) {
             console.log(answers[j].isCorrectAnswer);
             finalHTML += `
             <li value=${answers[j].isCorrectAnswer} id='possibleAnswer' name='answer${j}'>
@@ -117,7 +165,7 @@ function openQuizz(response) {
         }
         finalHTML += `</ul>`
     }
-    for (let q=0; q<selectedQuizz.levels.length; q++) {
+    for (let q = 0; q < selectedQuizz.levels.length; q++) {
         finalHTML += `
         <ul class='quizzResult level${q} hiddingClass'>
             <li style='background-color: #EC362D'>
@@ -156,22 +204,22 @@ function openQuizz(response) {
 
     //IMPLEMENTAÇÃO DA FUNÇÃO QUE ALTERA A OPACIDADE DAS ALTERNATIVAS NÃO-SELECIONADAS & COLORE OS TEXTOS DAS ALTERNATIVAS
     let possibleAnswers = quizzInsideScreenElement.querySelectorAll('#possibleAnswer');
-    for (let i=0; i<possibleAnswers.length; i++) {
-        possibleAnswers[i].onclick = function() { 
+    for (let i = 0; i < possibleAnswers.length; i++) {
+        possibleAnswers[i].onclick = function () {
             possiblePoints += 1;
             let answeredQuestion = this.parentElement.querySelectorAll('#possibleAnswer');
             let verifier = this;
             if (verifier.attributes.getNamedItem("value").value == 'true') {
                 score += 1;
             }
-            for (let k=0; k<answeredQuestion.length; k++) {
+            for (let k = 0; k < answeredQuestion.length; k++) {
                 let greenOrRed = answeredQuestion[k].attributes.getNamedItem("value").value;
                 if (greenOrRed == 'true') {
                     answeredQuestion[k].style.color = 'green';
                 } else {
                     answeredQuestion[k].style.color = 'red';
                 }
-                if (answeredQuestion[k] == verifier) {}
+                if (answeredQuestion[k] == verifier) { }
                 else if (answeredQuestion[k].name != `answer${possibleAnswers[i].name}`) {
                     answeredQuestion[k].classList.add('whiteShade');
                     answeredQuestion[k].onclick = null;
@@ -179,8 +227,9 @@ function openQuizz(response) {
             }
             if (possiblePoints == selectedQuizz.questions.length) {
                 let percentualScore = ((score / possiblePoints) * 100);
+                percentualScore = Math.floor(percentualScore);
                 let stop = 0;
-                for (let r=quizzLevelsMinValues.length-1; r>=0; r--) {
+                for (let r = quizzLevelsMinValues.length - 1; r >= 0; r--) {
                     if (stop == 0) {
                         if (percentualScore >= quizzLevelsMinValues[r]) {
                             let correspondentResult = quizzInsideScreenElement.querySelector(`.level${r}`);
@@ -261,7 +310,7 @@ function expandCollapseEffect(element) {
 }
 
 function fromFirstStepsToCreateQuestions(element) {
-    
+
     if (!validateFirstStepsFieldsValues(element)) {
         alert("Algum dos campos não foi preenchido corretamente. Por favor, tente novamente.")
         return;
@@ -281,7 +330,7 @@ function fromFirstStepsToCreateQuestions(element) {
 
 }
 
-function validateFirstStepsFieldsValues (element) {
+function validateFirstStepsFieldsValues(element) {
     let title = document.getElementsByName("quizzTitle")[0].value;
     let image = document.getElementsByName("quizzImageURL")[0].value;
     let questionsNum = document.getElementsByName("numberOfQuestions")[0].value;
@@ -321,9 +370,9 @@ function renderQuestions() {
     element.innerHTML = "<h1>Criar suas perguntas</h1>";
     for (let i = 0; i < numberOfQuestions; i++) {
         element.innerHTML += `
-            <div id="${i+1}" class="createdQuestion">
+            <div id="${i + 1}" class="createdQuestion">
                 <div class="createdQuestionTitle" onclick="expandCollapseEffect(this)">
-                    <p>Pergunta ${i+1}</p>
+                    <p>Pergunta ${i + 1}</p>
                     <ion-icon name="create-outline"></ion-icon>
                 </div>
                 <div class="inputFields hiddingClass">
@@ -352,8 +401,8 @@ function renderQuestions() {
                 </div>
             </div>
         `
-        if(i===0) {
-            expandCollapseEffect(element.children[1].children[0]); 
+        if (i === 0) {
+            expandCollapseEffect(element.children[1].children[0]);
         }
     }
     element.innerHTML += `<button onclick="fromCreateQuestionsToCreateLevel(this)">Prosseguir pra criar níveis</button>`;
@@ -364,9 +413,9 @@ function renderLevels() {
     element.innerHTML = "<h1>Agora, decida os níveis</h1>";
     for (let i = 0; i < numberOflevels; i++) {
         element.innerHTML += `
-            <div id="${i+1}" class="createdLevel">
+            <div id="${i + 1}" class="createdLevel">
                 <div class="createdLevelTitle" onclick="expandCollapseEffect(this)">
-                    <p>Nível ${i+1}</p>
+                    <p>Nível ${i + 1}</p>
                     <ion-icon name="create-outline"></ion-icon>
                 </div>
                 <div class="inputGroup hiddingClass">
@@ -377,8 +426,8 @@ function renderLevels() {
                 </div>
             </div>
         `
-        if(i===0) {
-            expandCollapseEffect(element.children[1].children[0]); 
+        if (i === 0) {
+            expandCollapseEffect(element.children[1].children[0]);
         }
     }
     element.innerHTML += `<button onclick="fromCreateLevelsTosuccessfulCreated(this)">Finalizar Quizz</button>`;
@@ -463,12 +512,16 @@ function getAnswers(element) {
 
 
 function fromCreateLevelsTosuccessfulCreated(element) {
+    if (!validateCreateLevelsFieldsValues(element)) {
+        alert("Algum dos campos não foi preenchido corretamente. Por favor, tente novamente.");
+        return;
+    }
     //validações dos inputs
     const levels = document.querySelectorAll(".createdLevel");
     levels.forEach(getLevels);
 
-    buildNewQuizz(); 
-    postNewQuizz();    
+    buildNewQuizz();
+    postNewQuizz();
 }
 
 function getLevels(element) {
@@ -495,6 +548,7 @@ function postNewQuizz() {
 }
 
 function showFinalScreen(answer) {
+    saveNewQuizzOnLocalStorage(answer.data.id);
     newQuizz = {};
     const recentlyCreated = document.querySelector(".createdQuizzCard");
     recentlyCreated.style.backgroundImage = `
@@ -511,7 +565,7 @@ function showFinalScreen(answer) {
     recentlyCreated.nextElementSibling.id = answer.data.id;
     document.querySelector(".createLevels").classList.toggle("hiddingClass");
     document.querySelector(".successfulCreated").classList.toggle("hiddingClass");
-    
+
 }
 
 function postingNewQuizzError(answer) {
@@ -533,16 +587,64 @@ function fromSuccessfulCreatedToQuizzInsideScreen(element) {
 }
 
 function cleanFields(fields) {
-    for (let i=0; i < fields.length; i++) {   
+    for (let i = 0; i < fields.length; i++) {
         fields[i].value = "";
     }
 }
 
-// ESBOÇO DO USO DO LOCAL STORAGE
+// ESBOÇO DO USO DO LOCAL STORAGE:
 // COMANDOS: localStorage.setItem("chave", item) || localStorage.getItem("chave") || JSON.stringify(array ou objeto) || JSON.parse(array ou objeto serializado)
-//function saveNewQuizz() {
-//    newQuizzReturnedId = newQuizzReturned.id;
-//    myQuizzesList.push(newQuizzId);
-//
-//    localStorage.setItem("quizz")
-//}
+
+function saveNewQuizzOnLocalStorage(newQuizzId) {
+    localStorage.setItem(`${newQuizzId}`, newQuizzId);
+    updateMyQuizzesList();
+}
+
+function updateMyQuizzesList() {
+    myQuizzesList = [];
+    let keys = Object.keys(localStorage);
+    for (let i = 0; i < keys.length; i++) {
+        let item = localStorage.getItem(keys[i]);
+        myQuizzesList.push(item);
+    }
+}
+
+function validateCreateLevelsFieldsValues(element) {
+    let levelTitle = document.getElementsByName("levelTitle")[0].value;
+    let levelMinimumPercentage = document.getElementsByName("levelMinimumPercentage")[0].value;
+    let image = document.getElementsByName("quizzImageURL")[0].value;
+    let pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
+    ;
+    let levelDescription = document.getElementsByName("levelDescription")[0].value;
+
+    if (levelTitle.length < 10) {
+        return false;
+    }
+    for (let i=0; i<levelMinimumPercentage.length; i++) {
+        let isCorrect = true;
+        let haveZero = false;
+        if (levelMinimumPercentage[i] < 0 || levelMinimumPercentage[i] > 100) {
+            isCorrect = false;
+        }
+        if (levelMinimumPercentage[i] == 0) {
+            haveZero = true;
+        }
+        if (haveZero == true) {
+            isCorrect = isCorrect;
+        } else {
+            isCorrect = false;
+        }
+        return isCorrect;
+    }
+    if (levelDescription.length < 30) {
+        return false;
+    }
+
+
+    return !!pattern.test(image);
+}
