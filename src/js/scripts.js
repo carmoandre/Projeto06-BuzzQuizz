@@ -419,14 +419,17 @@ function validateTitleAndColor(title, color) {
         return true;   
     }
 
-    if (color.length !== 7 || color[0] !== "#") {
+    if (color.length !== 7 || validHexadecimal(color)){//color[0] !== "#") {
         return true;
     }
 
     return false;
 }
 
-
+function validHexadecimal(str) {
+    let validation = /^#[0-9A-F]{6}$/i.test(str);
+    return validation;
+}
 
 function getAnswers(element) {
     const answersArray = [];
@@ -456,6 +459,8 @@ function getAnswers(element) {
     }
     return answersArray;
 }
+
+
 
 function fromCreateLevelsTosuccessfulCreated(element) {
     //validações dos inputs
