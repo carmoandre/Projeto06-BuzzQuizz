@@ -291,7 +291,7 @@ function validateFirstStepsFieldsValues (element) {
         return false;
     }
 
-    if(!validURL) {
+    if(!validURL(image)) {
         return false;
     }
     
@@ -419,7 +419,7 @@ function validateTitleAndColor(title, color) {
         return true;   
     }
 
-    if (color.length !== 7 || validHexadecimal(color)){//color[0] !== "#") {
+    if (color.length !== 7 || validHexadecimal(color)) {
         return true;
     }
 
