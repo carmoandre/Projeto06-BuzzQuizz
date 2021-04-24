@@ -24,6 +24,7 @@ let newQuestions = [];
 let inputsToClean;
 let myQuizzesList = [];
 let newLevels = [];
+let questionFieldsValidation = false;
 
 function temp() {
     console.log("Funciona! substituir!");
@@ -282,19 +283,15 @@ function fromFirstStepsToCreateQuestions(element) {
 
 function validateFirstStepsFieldsValues (element) {
     let title = document.getElementsByName("quizzTitle")[0].value;
+    let image = document.getElementsByName("quizzImageURL")[0].value;
     let questionsNum = document.getElementsByName("numberOfQuestions")[0].value;
     let levelsNum = document.getElementsByName("numberOfLevels")[0].value;
     
-    let image = document.getElementsByName("quizzImageURL")[0].value;
-    let pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-
-    
     if (title.length < 20 || title.length > 65) {
+        return false;
+    }
+
+    if(!validURL) {
         return false;
     }
     
@@ -306,7 +303,17 @@ function validateFirstStepsFieldsValues (element) {
         return false;
     }
 
-    return !!pattern.test(image);
+    return true;
+}
+
+function validURL(str) {
+    let pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
 }
 
 function renderQuestions() {
@@ -381,26 +388,65 @@ function fromCreateQuestionsToCreateLevel(element) {
     //validações de inputs
     const allQuestions = document.querySelectorAll(".createdQuestion");
     allQuestions.forEach(getQuestion);
+    if (questionFieldsValidation) {
+        alert("O Título deve ter pelo menos 20 caracteres. A cor dever ser em hexadecimal. As perguntas devem ter pelo menos uma resposta correta e uma resposta incorreta. Por favor, preencha novamente");
+        questionFieldsValidation = false;
+        return;
+    }
     document.querySelector(".createQuestions").classList.toggle("hiddingClass");
     document.querySelector(".createLevels").classList.toggle("hiddingClass");
 }
-
 
 function getQuestion(element) {
     let object = {};
     object.title = element.querySelector(".questionText").value;
     object.color = element.querySelector(".questionBGcolor").value;
+    //console.log(`Color: ${object.color}. color.length: ${object.color.length}`);
+    if (validateTitleAndColor(object.title, object.color)) {
+        questionFieldsValidation = true;
+        return;
+    }
     object.answers = getAnswers(element);
+    if (questionFieldsValidation) {
+        newQuestions = [];
+        return;
+    }
     newQuestions.push(object);
 }
+
+function validateTitleAndColor(title, color) {
+    if (title.length < 20) {
+        return true;   
+    }
+
+    if (color.length !== 7 || color[0] !== "#") {
+        return true;
+    }
+
+    return false;
+}
+
+
 
 function getAnswers(element) {
     const answersArray = [];
     const allAnswers = element.querySelectorAll(".inputPair");
     for (let i = 1; i < allAnswers.length; i++) {
         const object = {}
+
         object.text = allAnswers[i].children[0].value;
         object.image = allAnswers[i].children[1].value;
+        
+        if ( i < 3 && (object.text === "" || !(validURL(object.image)))) {
+            questionFieldsValidation = true;
+            newQuestions = [];
+            return;
+        }
+
+        if (i > 2 && (object.text === "" || object.image === "")) {
+            continue;
+        }
+
         if (i === 1) {
             object.isCorrectAnswer = true;
         } else {
@@ -410,7 +456,6 @@ function getAnswers(element) {
     }
     return answersArray;
 }
-
 
 function fromCreateLevelsTosuccessfulCreated(element) {
     //validações dos inputs
