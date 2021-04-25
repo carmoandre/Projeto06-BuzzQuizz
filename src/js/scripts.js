@@ -56,6 +56,7 @@ function gettingAllQuizzesError(answer) {
 
 function renderQuizzes(quizzesList) {
     resetQuizzesLists();
+    //console.log(quizzesList); :=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
     quizzesList.forEach(renderQuizz);
 }
 
@@ -66,6 +67,7 @@ function resetQuizzesLists() {
 
 function renderQuizz(quizzInfo) {
     if (myQuizzesList.length > 0) {
+        let test = true;
         //CASO SEJA UM DOS QUIZZES DO USUÁRIO:
         for (let i = 0; i < myQuizzesList.length; i++) {
             if (quizzInfo.id == myQuizzesList[i]) {
@@ -87,23 +89,27 @@ function renderQuizz(quizzInfo) {
         }
         //CASO NÃO SEJA UM DOS QUIZZES DO USUÁRIO:
         for (let i = 0; i < myQuizzesList.length; i++) {
-            if (quizzInfo.id != myQuizzesList[i]) {
-                lists[1].innerHTML += `
-                <li id="${quizzInfo.id}" onclick="toQuizzInsideScreenTransition(${quizzInfo.id})">
-                    <p>${quizzInfo.title}</p>
-                </li>
-                `;
-                document.getElementById(quizzInfo.id).style.backgroundImage = `
-                linear-gradient(
-                    180deg,
-                    rgba(255, 255, 255, 0) 0%,
-                    rgba(0, 0, 0, 0.5) 64.58%,
-                    #000000 100%
-                ),
-                url(${quizzInfo.image})
-                `;
+            if (quizzInfo.id == myQuizzesList[i]) {
+                test = false;
             }
         }
+        if (test == true) {
+            lists[1].innerHTML += `
+            <li id="${quizzInfo.id}" onclick="toQuizzInsideScreenTransition(${quizzInfo.id})">
+                <p>${quizzInfo.title}</p>
+            </li>
+            `;
+            document.getElementById(quizzInfo.id).style.backgroundImage = `
+            linear-gradient(
+                180deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(0, 0, 0, 0.5) 64.58%,
+                #000000 100%
+            ),
+            url(${quizzInfo.image})
+            `;
+        }
+
     } else {
         lists[1].innerHTML += `
         <li id="${quizzInfo.id}" onclick="toQuizzInsideScreenTransition(${quizzInfo.id})">
@@ -120,6 +126,7 @@ function renderQuizz(quizzInfo) {
         url(${quizzInfo.image})
         `;
     }
+    console.log(lists[1].innerHTML);
 }
 
 function toQuizzInsideScreenTransition(quizzID) {
