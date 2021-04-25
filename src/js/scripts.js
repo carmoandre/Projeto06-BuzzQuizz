@@ -29,10 +29,6 @@ let newestQuizzes;
 let myQuizzesList = [];
 updateMyQuizzesList();
 
-function temp() {
-    console.log("Funciona! substituir!");
-}
-
 if (myQuizzesList.length > 0) {
     myQuizzesEmpty.classList.toggle("hiddingClass");
     myQuizzesFull.classList.toggle("hiddingClass");
@@ -62,6 +58,7 @@ function renderQuizzes(quizzesList) {
     for (let i=0; i<localStorage.length; i++) {
         updateLocalStorage(localStorage.getItem(keys[i]));
     }
+    quizzesList.forEach(renderQuizz);
 }
 
 function resetQuizzesLists() {
@@ -570,9 +567,6 @@ function updateLocalStorage(storagedItem) {
     if (outdated == true) {
         localStorage.removeItem(storagedItem);
     }
-    console.log(outdated);
-    console.log(newestQuizzes);
-    console.log(storagedItem);
 }
 
 function updateMyQuizzesList() {
