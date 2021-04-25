@@ -457,7 +457,6 @@ function getQuestion(element) {
     let object = {};
     object.title = element.querySelector(".questionText").value;
     object.color = element.querySelector(".questionBGcolor").value;
-    //console.log(`Color: ${object.color}. color.length: ${object.color.length}`);
     if (validateTitleAndColor(object.title, object.color)) {
         questionFieldsValidation = true;
         return;
@@ -475,7 +474,7 @@ function validateTitleAndColor(title, color) {
         return true;   
     }
 
-    if (color.length !== 7 || validHexadecimal(color)) {
+    if (color.length !== 7 || !validHexadecimal(color)) {
         return true;
     }
 
@@ -492,18 +491,21 @@ function getAnswers(element) {
     const allAnswers = element.querySelectorAll(".inputPair");
     for (let i = 1; i < allAnswers.length; i++) {
         const object = {}
-
         object.text = allAnswers[i].children[0].value;
         object.image = allAnswers[i].children[1].value;
         
         if ( i < 3 && (object.text === "" || !(validURL(object.image)))) {
             questionFieldsValidation = true;
-            newQuestions = [];
             return;
         }
 
         if (i > 2 && (object.text === "" || object.image === "")) {
             continue;
+        }
+
+        if (i > 2 && !(validURL(object.image))) {
+            questionFieldsValidation = true;
+            return;
         }
 
         if (i === 1) {
