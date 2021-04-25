@@ -24,6 +24,7 @@ let numberOfLevels = 0;
 let newQuestions = [];
 let inputsToClean;
 let newLevels = [];
+let newestQuizzes;
 
 let myQuizzesList = [];
 updateMyQuizzesList();
@@ -55,9 +56,12 @@ function gettingAllQuizzesError(answer) {
 }
 
 function renderQuizzes(quizzesList) {
+    newestQuizzes = quizzesList;
     resetQuizzesLists();
-    //console.log(quizzesList); :=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
-    quizzesList.forEach(renderQuizz);
+    let keys = Object.keys(localStorage);
+    for (let i=0; i<localStorage.length; i++) {
+        updateLocalStorage(localStorage.getItem(keys[i]));
+    }
 }
 
 function resetQuizzesLists() {
@@ -126,7 +130,6 @@ function renderQuizz(quizzInfo) {
         url(${quizzInfo.image})
         `;
     }
-    console.log(lists[1].innerHTML);
 }
 
 function toQuizzInsideScreenTransition(quizzID) {
@@ -555,6 +558,21 @@ function cleanFields(fields) {
 function saveNewQuizzOnLocalStorage(newQuizzId) {
     localStorage.setItem(`${newQuizzId}`, newQuizzId);
     updateMyQuizzesList();
+}
+
+function updateLocalStorage(storagedItem) {
+    let outdated = true;
+    for (let i=0; i<newestQuizzes.length; i++) {
+        if (storagedItem == newestQuizzes[i].id) {
+            outdated = false;
+        } 
+    }
+    if (outdated == true) {
+        localStorage.removeItem(storagedItem);
+    }
+    console.log(outdated);
+    console.log(newestQuizzes);
+    console.log(storagedItem);
 }
 
 function updateMyQuizzesList() {
