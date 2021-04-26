@@ -162,7 +162,6 @@ function openQuizz(response) {
         let answers = selectedQuizz.questions[i].answers;
         shuffleAnswers(answers);
         for (let j = 0; j < answers.length; j++) {
-            console.log(answers[j].isCorrectAnswer);
             finalHTML += `
             <li value=${answers[j].isCorrectAnswer} id='possibleAnswer' name='answer${j}'>
                 <img src='${answers[j].image}' width="330px" height="175px">
@@ -521,7 +520,7 @@ function getAnswers(element) {
 
 
 function fromCreateLevelsTosuccessfulCreated(element) {
-    if (!validateCreateLevelsFieldsValues(element)) {
+    if (validateCreateLevelsFieldsValues(element) == false) {
         alert("Algum dos campos não foi preenchido corretamente. Por favor, tente novamente.");
         return;
     }
@@ -643,25 +642,39 @@ function validateCreateLevelsFieldsValues(element) {
     ;
     let levelDescription = document.getElementsByName("levelDescription")[0].value;
 
+    let levelMinimumPercentageValidation = true;
+
     if (levelTitle.length < 10) {
         return false;
     }
+
     for (let i=0; i<levelMinimumPercentage.length; i++) {
         let isCorrect = true;
         let haveZero = false;
+        let forEnd = (levelMinimumPercentage.length - 1);
+
         if (levelMinimumPercentage[i] < 0 || levelMinimumPercentage[i] > 100) {
             isCorrect = false;
+            return isCorrect;
         }
+
         if (levelMinimumPercentage[i] == 0) {
             haveZero = true;
         }
-        if (haveZero == true) {
-            isCorrect = isCorrect;
-        } else {
+
+        if (haveZero == false) {
             isCorrect = false;
         }
-        return isCorrect;
+
+        if (i == forEnd) {
+            levelMinimumPercentageValidation = isCorrect;
+        }
     }
+
+    if (levelMinimumPercentageValidation == false) {
+        return false;
+    }
+
     if (levelDescription.length < 30) {
         return false;
     }
